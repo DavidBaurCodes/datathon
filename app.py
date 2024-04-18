@@ -13,10 +13,10 @@ import toml
 
 
 # load api keys region etc from secrets.toml file
-os.environ["OPENAI_API_KEY"] = secrets['openai']['api_key']
-pinecone_api_key = st.secrets['pinecone']['api_key']
-pinecone_region = st.secrets['pinecone']['region']
-pinecone_index_name = st.secrets['pinecone']['index_name']
+os.environ["OPENAI_API_KEY"] = st.secrets['openai_api_key']
+pinecone_api_key = st.secrets['pinecone_api_key']
+pinecone_region = st.secrets['pinecone_region']
+pinecone_index_name = st.secrets['pinecone_index_name']
 
 st.set_page_config(page_title="RAG - TEST", page_icon="🔗", layout="wide")
 
