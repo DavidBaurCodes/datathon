@@ -31,7 +31,7 @@ vectorstore = PineconeVectorStore(index_name=pinecone_index_name, embedding=embe
 
 
 def get_context_retriever_chain(vectorstore):
-    llm = ChatOpenAI(temperature=0.0)
+    llm = ChatOpenAI("gpt-3.5-turbo-0125", temperature=0.0)
     retriever = vectorstore.as_retriever()  # Initialisiere den Retriever
 
     search_prompt = ChatPromptTemplate.from_messages([
@@ -46,7 +46,7 @@ def get_context_retriever_chain(vectorstore):
 
 def get_conversational_rag_chain(retriever_chain):
     
-    llm = ChatOpenAI(model="GPT-4", temperature=0.0)
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.0)
     prompt = ChatPromptTemplate.from_messages([
         ("system", '''Deine Rolle ist die eines SOP-Assistenten am Universitätsklinikum Leipzig (UKL), spezialisiert auf die 
         Standard Operating Procedures (SOPs) des Klinikums. Du verfügst über eine umfassende 
