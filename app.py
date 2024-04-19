@@ -31,7 +31,7 @@ vectorstore = PineconeVectorStore(index_name=pinecone_index_name, embedding=embe
 
 
 def get_context_retriever_chain(vectorstore):
-    llm = ChatOpenAI()
+    llm = ChatOpenAI(model="gpt-4-turbo", temperature=0.0)
     retriever = vectorstore.as_retriever()  # Initialisiere den Retriever
 
     search_prompt = ChatPromptTemplate.from_messages([
@@ -39,7 +39,7 @@ def get_context_retriever_chain(vectorstore):
         ("user", "{input}"),
         ("user", '''Basierend auf dem vorherigen Gespräch, generiere eine Suchanfrage, 
          um relevante Informationen für die Konversation zu erhalten. Gehe auf neue Fragen ein
-         Ziehe neue Quellen heran, um die Antwort zu generieren.''')
+         Ziehe neue Kontexte heran, um die Antwort zu generieren.''')
     ])
 
     retriever_chain = create_history_aware_retriever(llm, retriever, search_prompt)
