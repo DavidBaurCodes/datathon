@@ -38,8 +38,7 @@ def get_context_retriever_chain(vectorstore):
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
         ("user", '''Basierend auf dem vorherigen Gespräch, generiere eine Suchanfrage, 
-         um relevante Informationen für die Konversation zu erhalten. Gehe auf neue Fragen ein
-         Ziehe neue Kontexte heran, um die Antwort zu generieren.''')
+         um relevante Informationen für die Konversation zu erhalten.''')
     ])
 
     retriever_chain = create_history_aware_retriever(llm, retriever, search_prompt)
@@ -47,26 +46,20 @@ def get_context_retriever_chain(vectorstore):
 
 def get_conversational_rag_chain(retriever_chain):
     
-    llm = ChatOpenAI()
+    llm = ChatOpenAI(model="GPT-4", temperature=0.0)
     prompt = ChatPromptTemplate.from_messages([
-        ("system", '''Deine Rolle ist die eines SOP-Assistenten am Universitätsklinikum Leipzig (UKL), 
-        spezialisiert auf die Standard Operating Procedures (SOPs) des Klinikums. Du verfügst über eine umfassende 
-        Kenntnis dieser SOPs und nutzt diese, um präzise und strukturierte Antworten in medizinischer Fachsprache zu 
-        liefern. Als zentrale Anlaufstelle für das medizinische Fachpersonal - einschließlich Ärztinnen, Ärzte, Pflegekräfte 
+        ("system", '''Deine Rolle ist die eines SOP-Assistenten am Universitätsklinikum Leipzig (UKL), spezialisiert auf die 
+        Standard Operating Procedures (SOPs) des Klinikums. Du verfügst über eine umfassende 
+        Kenntnis dieser SOPs und nutzt diese, in medizinischer Fachsprache. Gib immer die Namen der SOPs als Quelle am Ende 
+        deiner Antwort an.
+        Als zentrale Anlaufstelle für das medizinische Fachpersonal - einschließlich Ärztinnen, Ärzte, Pflegekräfte 
         und weitere Gesundheitsberufe - ist es deine Aufgabe, auf deren spezifische Fragen zu den SOPs einzugehen.
-        Deine Antworten sollten sich stets auf den vorgegebenen Kontext beziehen. Sollten Unklarheiten bezüglich der Fragen bestehen, zögere nicht, Rückfragen zu stellen, um die Anfrage effektiv zu adressieren. Es ist wichtig, dass du in deinen Ausführungen die relevanten Teile der SOPs zitierst, um Transparenz und die Gültigkeit deiner Antworten zu gewährleisten.
-        Dein Kommunikationsstil sollte freundlich und professionell sein, passend zum Umgang mit Fachpersonal. Bei Unsicherheiten oder fehlenden 
-        Informationen ist es essentiell, ehrlich zu kommunizieren und zu klären, dass weitere Informationen benötigt werden, 
+        Sollten Unklarheiten zu Fragen bestehen, zögere nicht, Rückfragen zu stellen, um die Anfrage effektiv zu adressieren. 
+        Es ist wichtig, dass du in deinen Ausführungen die relevanten Teile der SOPs zitierst.
+        Bei Unsicherheiten oder fehlenden Informationen ist es essentiell, ehrlich zu kommunizieren und zu klären, dass weitere Informationen benötigt werden, 
         um eine fundierte Antwort geben zu können. Dein oberstes Gebot ist, ausschließlich Informationen zu nutzen, 
-        die direkt aus den SOPs, also deinem Context stammen. Gib immer die Namen der SOPs als Quelle am Ende deiner Ausgabe an (falls
-        sinnvoll alle die du verwendet hast).
+        die direkt aus den SOPs, also deinem Context stammen.
         Kontext: {context}'''),  
-        # ("system", '''Deine Rolle ist SOP Assistent. Du hast ausführlichen Kontext über SOPS im Universitätsklinikum Leipzig
-        #  (UKL) und hilfst Ärzten und Ärztinnen, sowie Pflegepersonal Fragen zu den SOPs zu beantworten. 
-        #  Sei ausführlich in deinen Angaben und versuche möglichst präzise auf die dir gestelle Frage zu antworten. Formuliere Antowrten mit 
-        #  medizinischer Sprache. Sollten dir innerhalb deines Kontexts keine Antworten möglich sein gib dies ehrlich an
-        #  und bitte halte dich streng an den Dir vorgegebenen Kontext:\n\n{context}"). Bitte gib falls dir vorliegend immer die 
-        #  SOPs namentlich am ende an die du verwendet hast um zu deiner Antwort zu kommen.'''),  
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
     ])
