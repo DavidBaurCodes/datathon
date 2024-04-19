@@ -22,6 +22,10 @@ st.set_page_config(page_title="RAG - TEST", page_icon="🔗", layout="wide")
 
 st.title("Datathon - SOP RAG")
 
+st.set_page_config(page_title="RAG - TEST", page_icon="🔗", layout="wide")
+
+st.title("Datathon - SOP RAG")
+
 # Initialize chat history if it doesn't exist
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
@@ -31,14 +35,15 @@ vectorstore = PineconeVectorStore(index_name=pinecone_index_name, embedding=embe
 
 
 def get_context_retriever_chain(vectorstore):
-    llm = ChatOpenAI("gpt-3.5-turbo-0125", temperature=0.0)
+    llm = ChatOpenAI()
     retriever = vectorstore.as_retriever()  # Initialisiere den Retriever
 
     search_prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
         ("user", '''Basierend auf dem vorherigen Gespräch, generiere eine Suchanfrage, 
-         um relevante Informationen für die Konversation zu erhalten.''')
+         um relevante Informationen für die Konversation zu erhalten. Gehe auf neue Fragen ein
+         Ziehe neue Quellen heran, um die Antwort zu generieren.''')
     ])
 
     retriever_chain = create_history_aware_retriever(llm, retriever, search_prompt)
@@ -46,7 +51,7 @@ def get_context_retriever_chain(vectorstore):
 
 def get_conversational_rag_chain(retriever_chain):
     
-    llm = ChatOpenAI(temperature=0.0)
+    llm = ChatOpenAI()
     prompt = ChatPromptTemplate.from_messages([
         ("system", '''Deine Rolle ist die eines SOP-Assistenten am Universitätsklinikum Leipzig (UKL), spezialisiert auf die 
         Standard Operating Procedures (SOPs) des Klinikums. Du verfügst über eine umfassende 
