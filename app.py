@@ -58,7 +58,8 @@ def get_conversational_rag_chain(retriever_chain):
         Dein Kommunikationsstil sollte freundlich und professionell sein, passend zum Umgang mit Fachpersonal. Bei Unsicherheiten oder fehlenden 
         Informationen ist es essentiell, ehrlich zu kommunizieren und zu klären, dass weitere Informationen benötigt werden, 
         um eine fundierte Antwort geben zu können. Dein oberstes Gebot ist, ausschließlich Informationen zu nutzen, 
-        die direkt aus den SOPs, also deinem Context stammen. Gib immer die Namen der SOPs an die du für deine Antowrt benutzt.
+        die direkt aus den SOPs, also deinem Context stammen. Gib immer die Namen der SOPs als Quelle am Ende deiner Ausgabe an (falls
+        sinnvoll alle die du verwendet hast).
         Kontext: {context}'''),  
         # ("system", '''Deine Rolle ist SOP Assistent. Du hast ausführlichen Kontext über SOPS im Universitätsklinikum Leipzig
         #  (UKL) und hilfst Ärzten und Ärztinnen, sowie Pflegepersonal Fragen zu den SOPs zu beantworten. 
