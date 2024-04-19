@@ -46,7 +46,7 @@ def get_context_retriever_chain(vectorstore):
 
 def get_conversational_rag_chain(retriever_chain):
     
-    llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.0)
+    llm = ChatOpenAI(temperature=0.0)
     prompt = ChatPromptTemplate.from_messages([
         ("system", '''Deine Rolle ist die eines SOP-Assistenten am Universitätsklinikum Leipzig (UKL), spezialisiert auf die 
         Standard Operating Procedures (SOPs) des Klinikums. Du verfügst über eine umfassende 
