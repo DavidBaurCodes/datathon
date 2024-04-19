@@ -31,7 +31,7 @@ vectorstore = PineconeVectorStore(index_name=pinecone_index_name, embedding=embe
 
 
 def get_context_retriever_chain(vectorstore):
-    llm = ChatOpenAI(model="gpt-4", temperature=0.0)
+    llm = ChatOpenAI(temperature=0.0)
     retriever = vectorstore.as_retriever()  # Initialisiere den Retriever
 
     search_prompt = ChatPromptTemplate.from_messages([
